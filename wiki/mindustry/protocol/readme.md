@@ -50,9 +50,9 @@ Host (byte[..512]):
 ```bytedoc
 # Login stage
 client -> server (tcp): (ack)
-client <- server (tcp): (Packet<RegisterTCPPacket>)
-client -> server (udp): (Packet<RegisterUDPPacket>)
-client <- server (tcp): (Packet<RegisterUDPPacket>)
+client <- server (tcp): (Packet<FrameworkMessage.RegisterTCP>)
+client -> server (udp): (Packet<FrameworkMessage.RegisterUDP>)
+client <- server (tcp): (Packet<FrameworkMessage.RegisterUDP>)
 client -> server (tcp): (Packet<ConnectPacket>)
 
 Lz4<T>:

@@ -19,6 +19,7 @@ knowing English should be enough for the most part.
 
 **Programming Languages**
 
+- [[concepts/readme|Concepts]]
 - [[kotlin/readme|Kotlin]]
 - [[bash/readme|Bash]]
 
@@ -28,6 +29,7 @@ knowing English should be enough for the most part.
 - [[xterm/readme|XTerm]]
 - [[idea/readme|IDEA]]
 - [[gradle/readme|Gradle]]
+- [[arch/readme|Arch Linux]]
 
 **Games**
 
