@@ -14,7 +14,9 @@ Setting renderer to `vulkan` fixes dialog windows being rendered pitch black.
 
 ## Fonts
 
-Fonts can be fixed by running `$ winetricks arial` 
+Arial font must be installed, otherwise code editor will crash.
+
+`$ winetricks arial` 
 
 ## Dialog window crash
 
