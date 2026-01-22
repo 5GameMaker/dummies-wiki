@@ -21,6 +21,7 @@ knowing English should be enough for the most part.
 
 - [[concepts/readme|Concepts]]
 - [[kotlin/readme|Kotlin]]
+- [[java/readme|Java]]
 - [[bash/readme|Bash]]
 
 **Tools**
