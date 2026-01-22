@@ -35,3 +35,7 @@ knowing English should be enough for the most part.
 **Games**
 
 - [[mindustry/readme|Mindustry]]
+
+**Operating systems**
+
+- [[linux/readme|Linux]]
