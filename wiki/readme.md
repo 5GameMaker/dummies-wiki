@@ -40,3 +40,7 @@ knowing English should be enough for the most part.
 **Operating systems**
 
 - [[linux/readme|Linux]]
+
+**Technologies**
+
+- [[upnp/readme|UPnP]]
