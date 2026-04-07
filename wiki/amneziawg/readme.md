@@ -12,7 +12,11 @@ Install
 
 > :warning:
 >
-> `systemd-resolved` service must be running on your system for `resolvconf` (`systemd-resolvconf`) command to work.
+> `systemd-resolved` service must be running on your system or `openresolv` must be installed for `resolvconf` (`systemd-resolvconf`) command to work.
+>
+> For NetworkManager configuration, refer to <https://wiki.archlinux.org/title/NetworkManager#DNS_resolver_with_an_openresolv_subscriber>.
+>
+> For IWD configuration, refer to <https://wiki.archlinux.org/title/Iwd>.
 
 First, we need:
 - Server key pair
