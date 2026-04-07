@@ -43,3 +43,4 @@ knowing English should be enough for the most part.
 **Technologies**
 
 - [[upnp/readme|UPnP]]
+- [[amneziawg/readme|AmneziaWG]]
