@@ -1,5 +1,7 @@
 # Running UMT on Linux
 
+## Original Windows-only UMT[^1]
+
 > ⚠️
 >
 > Drag&drop freezes the application!
@@ -12,17 +14,22 @@ Windows GUI binaries can be used on Linux via Wine.
 
 Setting renderer to `vulkan` fixes dialog windows being rendered pitch black.
 
-## Fonts
+### Fonts
 
 Arial font must be installed, otherwise code editor will crash.
 
 `$ winetricks arial` 
 
-## Dialog window crash
+### Dialog window crash
 
 When unfocusing window with a popup open, UMT may crash with `XI_BadDevice`.
 
 To fix this, unset `DISPLAY` or set it to empty: `$ DISPLAY= ..`
 
-## Reference
-- [How to run UndertaleModTool on Wine by WilsontheWolf](https://gist.github.com/WilsontheWolf/0eca47bf15f3a1811d03db93af960df5)
+## Availonia port[^2]
+
+Download, unpack and run <https://nightly.link/luizzeroxis/UndertaleModTool/workflows/publish_gui_avalonia/avalonia/GUI-ubuntu-latest-Release-isBundled-true-isSingleFile-false.zip>.
+This should work without any modifications.
+
+[^1]: [How to run UndertaleModTool on Wine by WilsontheWolf](https://gist.github.com/WilsontheWolf/0eca47bf15f3a1811d03db93af960df5)
+[^2]: https://github.com/UnderminersTeam/UndertaleModTool/pull/2126

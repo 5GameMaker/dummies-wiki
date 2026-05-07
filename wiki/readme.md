@@ -32,6 +32,7 @@ knowing English should be enough for the most part.
 - [[gradle/readme|Gradle]]
 - [[arch/readme|Arch Linux]]
 - [[s3/readme]]
+- [[nvim/readme]]
 
 **Games**
 

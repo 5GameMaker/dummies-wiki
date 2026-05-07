@@ -107,6 +107,10 @@ Then on both sides you can do `# awg-quick up <interface>`.
 Important to note that manually routing via the new awg device will only work if those IP are specified in `AllowedIPs`.
 If you want to be able to choose traffic from what applications you want to pass through awg, consider trying [linux/netns|Network Namespaces].
 
+## Adding a peer with AmneziaVPN (Android)
+
+AmneziaVPN supports the same config format as `awg`. To add a peer, click on "File with connection settings" and select your `.conf` file.
+
 [^1]: https://ithy.com/article/amneziawg-configuration-ah56mxc2
 [^2]: https://docs.amnezia.org/documentation/amnezia-wg#configuration-parameters
 [^3]: https://www.wireguard.com/quickstart/

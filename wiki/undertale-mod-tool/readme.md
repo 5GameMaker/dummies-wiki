@@ -5,3 +5,4 @@ A tool for editing data.win files.
 ## Contents
 
 - [[undertale-mod-tool/linux.md|Running on Linux]]
+- [[undertale-mod-tool/console.md|Console]]
