@@ -1,6 +1,9 @@
 # Bytedoc format
 
-Bytedoc is the format used in this wiki to display ABIs without confusion.
+> Specification version: 2 (2025-05-24, see changes at the end of the page).
+
+Bytedoc is the format used in this wiki to display binary formats as close to they are on wire as possible without
+making them unreadable.
 
 Possible extensions: `.bytedoc` (albeit it's not meant to be used on its own).
 
@@ -40,12 +43,31 @@ This is a raw string\n
 And this is a raw string
 ```
 
-All supported escape sequences in raw strings:
+All supported escape sequences in root strings:
 - `'\n'`: line feed character
 - `'\r'`: carriage return character
 - `'\t'`: tab character
-- `'\x('[([Uu]-)?[0-9a-fA-F]+]')'`: arbitrary unicode character
+- `'\x('/([Uu]-)?[0-9a-fA-F]+')/'`: arbitrary unicode character
 - `'\\'`: backslash character
+- `'\0'`: nul byte
+
+Any other escape sequence is **not allowed**.
+
+## Character strings
+
+Character strings are a collection of characters contained within quotes (double or singular, must match) representing a string in unicode format. Grave accent
+enclosing syntax is reserved for future use.
+
+If enclosed in single quotes, this is considered to be a *raw string*. In raw strings only `\\` (for `\`) and `\'` (for `'`) escapes are allowed. Newlines
+in raw strings are **forbidden**.
+
+If enclosing in double quotes, all escape sequences as in root strings are supported.
+
+## Regular expressions
+
+Characters enclosed in `/` are considered to be regular expressions with the same syntax as in JavaScript.
+
+*This is a subject to change*
 
 ## Objects
 
@@ -61,19 +83,21 @@ Array length may be specified as well: `(<type>[<length>])`
 For non-array objects value is specified via: `(<type> = <value>)`. You may still add an `=` when setting the value
 of an array, but it's optional there.
 
-If object may not be present in the stream, it may be made optional with: `(..)?`
+If object may not be present in the stream, it may be made optional with: `(..)?`.
 
-Parts go in the following order: `(<type>[<length>](<name>) {}: <comment>)`
+Parts go in the following order: `(<type>[<length>](<name>) {}: <comment>)`.
 
 ## Types
 
 There are several built-in types:
 - `?`: an unknown type. Size is determined contextually.
 - `byte`: a singular byte. Signess is contextual.
-- `(i,u)(8,16,32,64,128,..)(be,le)?`: either signed or unsigned integer of specified size. Size must be a multiple of 8, but not necessarily a power of 2. Endiannes may be specified for integer types larger than 8
+- `(i,u)(8,16,32,64,128,..)(be,le)?`: either signed or unsigned integer of specified size. Size must be a multiple of 8, but not necessarily a power of 2.
+  Endiannes may be specified for integer types larger than 8
 - `ack`: a special 0-sized type for sockets. Used contextually to indicate acknowledgement or start of a connection.
 - `dyn ..`: a dynamically sized object with unknown size. `dyn` is the same as `dyn ?`.
 - `pad`: padding. Acts the same as `byte`. Padding bytes are considered arbitrary. Specifying the value of `pad` is an error.
+- `unreachable`: a type that should never be encountered. Used in if chains to mark impossible elements.
 
 Other types can be defined via: `Type:` on a separate line.
 
@@ -86,7 +110,9 @@ Type parameters may be specified with (i.e. for type `Type` with a generic param
 
 ## Comments
 
-Comments start with a `#` at the beginning of the line or are enclosed in `<< >>` inside of root strings.
+Comments start with a `#` at the beginning of the line or are enclosed in `<< >>` inside of *root strings*.
+
+If a line comment starts with `##`, it is considered a *doc comment*. Doc comments *must* 
 
 ## Conditions
 
@@ -106,3 +132,15 @@ Network transmissions are included at the top of bytedoc files:
 ```
 
 `...` line can be used to indicate an arbitrarily long wait.
+
+## Specification updates
+
+**Version 2** *(2025-05-24)*
+
+- Actually started tracking versions
+- Doc comments for codegen
+- Updated mission statement
+- Minor formatting updates
+- NUL byte escape sequence as shorter alternative to `\x(0)`
+- Regular expression syntax
+- `unreachable` type
