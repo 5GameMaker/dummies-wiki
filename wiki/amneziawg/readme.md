@@ -29,19 +29,17 @@ Generate the keys with[^3]:
 
 With keys ready, it's time to create our interfaces.
 
-Keep in mind that on a VPN server and clients must have their own distinct IPs. For this example we'll be using:
-- `10.10.0.1` for the server
-- `10.10.0.2` for the client
+Keep in mind that on a VPN server and clients must have their own distinct IPs.
 
 For the special Amnezia parameters, consider using a randomizer.
 
 As root, create and modify a file (`/etc/amnezia/amneziawg/<interface>.conf`):
 
-`awg0.conf`[^1][^2]
+`awg0.conf`[^1][^2][^4]
 ```ini
 [Interface]
 # The node's IP address on the VPN network (replace IP with the IP on VPN network for this machine).
-Address = IP/24
+Address = IP4/24, IP6/96
 # Copy this from `privatekey`. Also leaking this is critical and you then must change the keys.
 PrivateKey = your_server_private_key
 # The port on which the WireGuard interface listens for incoming connections.
@@ -53,8 +51,35 @@ DNS = 1.1.1.1, 1.0.0.1
 # any IPs. No, I do not remember where I got this from, and I'm not willing to search for it.
 #
 # Make sure to replace `inet` with your network device (do `ip a`, it's probably either `wlan`, `eth`, or something similar).
-PostUp = iptables -A FORWARD -i awg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o inet -j MASQUERADE; ip6tables -A FORWARD -i awg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o inet -j MASQUERADE
-PostDown = iptables -D FORWARD -i awg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o inet -j MASQUERADE; ip6tables -D FORWARD -i awg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o inet -j MASQUERADE
+
+# ipv4/ipv6 general routing
+
+PostUp = iptables -A FORWARD -i awg0 -j ACCEPT
+PostUp = iptables -t nat -A POSTROUTING -o inet -j MASQUERADE
+PostUp = ip6tables -A FORWARD -i awg0 -j ACCEPT
+PostUp = ip6tables -t nat -A POSTROUTING -o inet -j MASQUERADE
+
+PostDown = iptables -D FORWARD -i awg0 -j ACCEPT
+PostDown = iptables -t nat -D POSTROUTING -o inet -j MASQUERADE
+PostDown = ip6tables -D FORWARD -i awg0 -j ACCEPT
+PostDown = ip6tables -t nat -D POSTROUTING -o inet -j MASQUERADE
+
+# (server only) ipv4/ipv6 inter-peer communications
+# IPv4 forwarding
+PreUp = sysctl -w net.ipv4.ip_forward=1
+# IPv4 masquerading
+PreUp = iptables -t mangle -A PREROUTING -i awg0 -j MARK --set-mark 0x30
+PreUp = iptables -t nat -A POSTROUTING ! -o awg0 -m mark --mark 0x30 -j MASQUERADE
+PostDown = iptables -t mangle -D PREROUTING -i awg0 -j MARK --set-mark 0x30
+PostDown = iptables -t nat -D POSTROUTING ! -o awg0 -m mark --mark 0x30 -j MASQUERADE
+
+# IPv6 forwarding
+PreUp = sysctl -w net.ipv6.conf.all.forwarding=1
+# IPv6 masquerading
+PreUp = ip6tables -t mangle -A PREROUTING -i awg0 -j MARK --set-mark 0x30
+PreUp = ip6tables -t nat -A POSTROUTING ! -o awg0 -m mark --mark 0x30 -j MASQUERADE
+PostDown = ip6tables -t mangle -D PREROUTING -i awg0 -j MARK --set-mark 0x30
+PostDown = ip6tables -t nat -D POSTROUTING ! -o awg0 -m mark --mark 0x30 -j MASQUERADE
 
 # Amnezia parameters.
 # Those must be exactly the same on both devices.
@@ -114,3 +139,4 @@ AmneziaVPN supports the same config format as `awg`. To add a peer, click on "Fi
 [^1]: https://ithy.com/article/amneziawg-configuration-ah56mxc2
 [^2]: https://docs.amnezia.org/documentation/amnezia-wg#configuration-parameters
 [^3]: https://www.wireguard.com/quickstart/
+[^4]: https://www.procustodibus.com/blog/2022/06/multi-hop-wireguard/#internet-gateway-as-a-spoke
