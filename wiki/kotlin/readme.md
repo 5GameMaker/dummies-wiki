@@ -7,6 +7,7 @@ for JavaScript I'll just use TypeScript.
 
 ## Table of Contents
 
+- [[kotlin/adding|Adding Kotlin to a Gradle project]]
 - [[kotlin/reflection/readme|Reflection]]
 - [[kotlin/testing/readme|Testing]]
 - [[kotlin/ksp/readme|Kotlin Symbol Processing]]

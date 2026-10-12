@@ -1,6 +1,6 @@
 # libs.gradle.toml
 
-`gradle/libs.gradle.toml` is a file where versions can be defined to be
+`gradle/libs.versions.toml` is a file where versions can be defined to be
 used in the codebase, allowing to update all of them quickly:
 ```toml
 [versions]
@@ -10,10 +10,10 @@ used in the codebase, allowing to update all of them quickly:
 my-plugin = { id = "org.my.plugin", version.ref = "version-tag" }
 thatone = { id = "org.my.that", version = "3.2.1" }
 
-[libaries]
+[libraries]
 that-lib = "org.lib:that:1.3.2"
 other-lib = "org.lib:other:1.3.2"
-extras = "org.lib:extras:1.3.2"
+extras = { module = "org.lib:extras", version = "3.2.1" }
 
 [bundles] # According to docs, bundles specifically combine libraries
 stuff = ["that-lib", "other-lib"]
